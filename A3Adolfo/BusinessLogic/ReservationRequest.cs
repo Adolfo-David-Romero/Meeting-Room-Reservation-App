@@ -1,41 +1,115 @@
+using System.Runtime.InteropServices.Swift;
 using Java.Sql;
 
 namespace A3Adolfo.BusinessLogic;
 
 public class ReservationRequest
 {
-    // Properties
-    public int RequestId { get; private set; }
-    public string RequestedBy { get; private set; }
-    public string Description { get; private set; }
-    public DateTime MeetingDate { get; private set; }
-    public DateTime StartTime { get; private set; }
-    public DateTime EndTime { get; private set; }
-    public int ParticipantCount { get; private set; }
-    public RequestStatus RequestStatus { get; private set; }
-    public MeetingRoom MeetingRoom { get; private set; }
-
+    //fields
+    private int _requestId;
+    private string _requestedBy;
+    private string _description;
+    private DateTime _meetingDate;
+    private DateTime _requestedDate;
+    private DateTime _startTime;
+    private DateTime _endTime;
+    private int _participantCount;
+    private RequestStatus _requestStatus;
+    private MeetingRoom _meetingRoom;
+    
     // Constructor
-    public ReservationRequest(int requestId, string requestedBy, string description, DateTime meetingDate, DateTime startTime, DateTime endTime, int participantCount, MeetingRoom meetingRoom)
+    public ReservationRequest(int requestId, string requestedBy, string description, DateTime meetingDate,DateTime requestedDate, DateTime startTime, DateTime endTime, int participantCount, RequestStatus requestStatus, MeetingRoom meetingRoom)
     {
-        //error checks
-        if (string.IsNullOrWhiteSpace(requestedBy))
-            throw new ArgumentException("Required: RequestedBy.");
-        if (participantCount <= 0)
-            throw new ArgumentException("Participant count must be greater than 0.");
-        if (endTime <= startTime)
-            throw new ArgumentException("End time must be after start time.");
-        if (meetingRoom == null)
-            throw new ArgumentException("Required: MeetingRoom.");
-
-        RequestId = requestId;
-        RequestedBy = requestedBy;
-        Description = description;
-        MeetingDate = meetingDate.Date;
-        StartTime = startTime;
-        EndTime = endTime;
-        ParticipantCount = participantCount;
-        MeetingRoom = meetingRoom;
-        RequestStatus = RequestStatus.Pending; 
+        this._requestId = requestId;
+        this._requestedBy = requestedBy;
+        this._description = description;
+        this._meetingDate = meetingDate;
+        this._requestedDate = requestedDate;
+        this._startTime = startTime;
+        this._endTime = endTime;
+        this._participantCount = participantCount;
+        this._requestStatus = requestStatus;
+        this._meetingRoom = meetingRoom;
     }
+    
+    // Properties
+    public int RequestId
+        {
+            get => _requestId;
+            set => _requestId = value;
+        }
+
+        public string RequestedBy
+        {
+            get => _requestedBy;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Required: RequestedBy.");
+                _requestedBy = value;
+            }
+        }
+
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Required: Description.");
+                _description = value;
+            }
+        }
+
+        public DateTime MeetingDate
+        {
+            get => _meetingDate;
+            set => _meetingDate = value.Date;
+        }
+
+        public DateTime StartTime
+        {
+            get => _startTime;
+            set
+            {
+                if (_endTime != default && value >= _endTime)
+                    throw new ArgumentException("StartTime must be before EndTime.");
+                _startTime = value;
+            }
+        }
+
+        public DateTime EndTime
+        {
+            get => _endTime;
+            set
+            {
+                if (_startTime != default && value <= _startTime)
+                    throw new ArgumentException("EndTime must be after StartTime.");
+                _endTime = value;
+            }
+        }
+
+        public int ParticipantCount
+        {
+            get => _participantCount;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("ParticipantCount must be greater than 0.");
+                _participantCount = value;
+            }
+        }
+
+        public RequestStatus RequestStatus { get; private set; } = RequestStatus.Pending;
+
+        public MeetingRoom MeetingRoom
+        {
+            get => _meetingRoom;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(MeetingRoom), "Required: MeetingRoom.");
+                _meetingRoom = value;
+            }
+        }
 }
