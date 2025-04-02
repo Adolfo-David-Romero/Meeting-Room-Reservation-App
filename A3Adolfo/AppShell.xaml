@@ -11,5 +11,13 @@
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+    <ShellContent
+        Title="Request Room"
+        ContentTemplate="{DataTemplate local:AddRequestPage}"
+        Route="AddRequestPage"/>
+    <ShellContent
+        Title="Pick Room"
+        ContentTemplate="{DataTemplate local:PickRoomPage}"
+        Route="PickRoomPage"/>
 
 </Shell>

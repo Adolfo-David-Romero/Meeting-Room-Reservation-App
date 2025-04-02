@@ -2,8 +2,39 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:A3Adolfo.BusinessLogic"
              x:Class="A3Adolfo.PickRoomPage">
     <ContentPage.Content>
+        <VerticalStackLayout>
+        <Label
+            Text="Pick Meeting Room"
+            Style="{StaticResource Headline}"
+            SemanticProperties.HeadingLevel="Level1"/>
         
+        <Image
+            x:Name="RoomImage"
+            Source="{Binding SelectedRoom.RoomImageFileName}"
+            HeightRequest="185"
+            Aspect="AspectFit"
+            VerticalOptions="Center"/>
+
+        <ListView x:Name="RoomListView" 
+                  ItemsSource="{Binding MeetingRooms}"
+                  ItemSelected="RoomListView_OnItemSelected" 
+                  >
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:MeetingRoom">
+                    <ViewCell>
+                        <HorizontalStackLayout Spacing="30">
+                            <Image Source="{Binding RoomTypeIcon}"/>
+                            <Label Text="{Binding RoomNumber}"/>
+                            <Label Text="{Binding SeatingCapacity}" TextColor="Red" />
+                        </HorizontalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            </ListView>
+        
+        </VerticalStackLayout>
     </ContentPage.Content>
 </ContentPage>

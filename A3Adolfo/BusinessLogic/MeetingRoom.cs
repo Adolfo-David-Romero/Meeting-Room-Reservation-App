@@ -27,8 +27,8 @@ public class MeetingRoom
         get => _roomNumber;
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Required: Room number.");
+            // if (string.IsNullOrWhiteSpace(value))
+            //     throw new ArgumentException("Required: Room number.");
             _roomNumber = value;
         }
     }
@@ -37,8 +37,8 @@ public class MeetingRoom
         get => _seatingCapacity;
         set
         {
-            if (value <= 0)
-                throw new ArgumentException("Seating capacity must be greater than 0.");
+            // if (value <= 0)
+            //     throw new ArgumentException("Seating capacity must be greater than 0.");
             _seatingCapacity = value;
         }
     }
@@ -52,8 +52,8 @@ public class MeetingRoom
         get => _roomImageFileName;
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Required: Room image file name.");
+            // if (string.IsNullOrWhiteSpace(value))
+            //     throw new ArgumentException("Required: Room image file name.");
             _roomImageFileName = value;
         }
     }
