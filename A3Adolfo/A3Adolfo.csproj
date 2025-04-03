@@ -64,4 +64,31 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <MauiXaml Update="Pages\AddRequestPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Pages\PickRoomPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Pages\ViewRequestsPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Pages\AddRequestPage.xaml.cs">
+        <DependentUpon>AddRequestPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Pages\PickRoomPage.xaml.cs">
+        <DependentUpon>PickRoomPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Pages\ViewRequestsPage.xaml.cs">
+        <DependentUpon>ViewRequestsPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
 </Project>
