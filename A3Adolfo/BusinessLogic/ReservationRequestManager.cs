@@ -30,6 +30,35 @@ public class ReservationRequestManager
             throw new BookingException($"Room number {room.RoomNumber} already exists.");
         }
     }
+    //Method to be resused to see if booking is valid
+    public bool IsBookingEligible(MeetingRoom room, DateTime meetingDate, DateTime startTime, DateTime endTime, int? ignoreRequestId = null)
+    {
+        if (room == null)
+            throw new BookingException("Room does not exist.");
+
+        if (endTime <= startTime)
+            throw new BookingException("End time must be after start time.");
+
+        DateTime now = DateTime.Now;
+        DateTime requestStart = meetingDate.Date + startTime.TimeOfDay;
+        if (requestStart < now)
+            throw new BookingException("Cannot book a room in the past.");
+
+        // Check for conflict (skip the request with ignoreRequestId, if provided)
+        bool conflict = _reservationRequests.Any(r =>
+            r.MeetingRoom.RoomNumber == room.RoomNumber &&
+            r.MeetingDate.Date == meetingDate.Date &&
+            r.RequestStatus == RequestStatus.Accepted &&
+            r.StartTime < endTime &&
+            startTime < r.EndTime &&
+            (!ignoreRequestId.HasValue || r.RequestId != ignoreRequestId.Value));
+
+        if (conflict)
+            throw new BookingException("This room is already booked at the requested time.");
+
+        return true;
+    }
+
 
     public MeetingRoom GetMeetingRoomByNumber(string roomNumber)
     {
@@ -39,31 +68,10 @@ public class ReservationRequestManager
     public bool AddReservationRequest(string roomNumber, string requestedBy, string description, DateTime meetingDate, DateTime startTime, DateTime endTime, int participantCount)
     {
         var room = GetMeetingRoomByNumber(roomNumber);
-        if (room == null)
-            throw new BookingException("Room does not exist.");
-
         if (participantCount <= 0 || participantCount > room.SeatingCapacity)
             throw new BookingException("Invalid participant count or capacity exceeded.");
 
-        if (endTime <= startTime)
-            throw new BookingException("End time must be after start time.");
-
-        DateTime now = DateTime.Now;
-        DateTime requestStart = meetingDate.Date + startTime.TimeOfDay;
-
-        if (requestStart < now)
-            throw new BookingException("Cannot book a room in the past.");
-
-        // Check for overlapping bookings in the same room
-        bool conflict = _reservationRequests.Any(r =>
-            r.MeetingRoom.RoomNumber == room.RoomNumber &&
-            r.MeetingDate.Date == meetingDate.Date &&
-            r.RequestStatus == RequestStatus.Accepted && // only conflict with active bookings
-            r.StartTime < endTime &&
-            startTime < r.EndTime);
-
-        if (conflict)
-            throw new BookingException("This room is already booked at the requested time.");
+        IsBookingEligible(room, meetingDate, startTime, endTime);
 
         var request = new ReservationRequest(
             _nextRequestId++,
@@ -80,6 +88,7 @@ public class ReservationRequestManager
         _reservationRequests.Add(request);
         return true;
     }
+
 
 
     public ObservableCollection<ReservationRequest> GetRequestsByRoomNumber(string roomNumber)
@@ -138,4 +147,27 @@ public class ReservationRequestManager
     {
         return _reservationRequests;
     }
+    public bool ChangeStatus(int requestId, RequestStatus newStatus)
+    {
+        var request = GetReservationById(requestId);
+
+        if (request == null)
+            throw new BookingException("Reservation not found.");
+
+        if (newStatus == RequestStatus.Accepted)
+        {
+            // Use the new reusable method!
+            IsBookingEligible(
+                request.MeetingRoom,
+                request.MeetingDate,
+                request.StartTime,
+                request.EndTime,
+                request.RequestId 
+            );
+        }
+
+        request.RequestStatus = newStatus;
+        return true;
+    }
+
 }

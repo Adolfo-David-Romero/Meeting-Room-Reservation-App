@@ -23,7 +23,7 @@ public class ReservationRequest
         this._startTime = startTime;
         this._endTime = endTime;
         this._participantCount = participantCount;
-        this._requestStatus = RequestStatus.Pending; //default
+        this._requestStatus = requestStatus; 
         this._meetingRoom = meetingRoom;
     }
     
