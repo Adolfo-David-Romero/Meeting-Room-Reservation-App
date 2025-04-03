@@ -8,15 +8,16 @@ using A3Adolfo.BusinessLogic;
 
 namespace A3Adolfo;
 
+/// <summary> Page that displays all rooms. </summary>
 public partial class PickRoomPage : ContentPage
 {
     public ObservableCollection<MeetingRoom> MeetingRooms { get; set; }
     private ReservationRequestManager _manager = new ReservationRequestManager();
-    public MeetingRoom SelectedRoom { get; set; }
+    public MeetingRoom SelectedRoom { get; set; } //Represents the user's selected room 
 
     public PickRoomPage()
     {
-        //Four items
+        //Four items (hard coded)
         _manager.AddMeetingRoom(new MeetingRoom("1", "auditorium_image.jpeg") { SeatingCapacity = 10, RoomLayoutType = RoomLayoutType.HollowSquare });
         _manager.AddMeetingRoom(new MeetingRoom("2", "banquet_image.jpeg") { SeatingCapacity = 15, RoomLayoutType = RoomLayoutType.UShape });
         _manager.AddMeetingRoom(new MeetingRoom("3", "classroom_image.jpeg") { SeatingCapacity = 20, RoomLayoutType = RoomLayoutType.Classroom });
@@ -27,7 +28,7 @@ public partial class PickRoomPage : ContentPage
         BindingContext = this;
         InitializeComponent();
 
-        //select first item
+        //select first item (to automatically display first image)
         if (MeetingRooms.Any())
         {
             SelectedRoom = MeetingRooms[0];
@@ -50,7 +51,7 @@ public partial class PickRoomPage : ContentPage
             return;
         }
 
-        await Navigation.PushAsync(new AddRequestPage(SelectedRoom, _manager));
+        await Navigation.PushAsync(new AddRequestPage(SelectedRoom, _manager)); //Navigates
     }
 
     private async void ViewRequestBtnClicked(object? sender, EventArgs e)
@@ -61,6 +62,6 @@ public partial class PickRoomPage : ContentPage
             return;
         }
 
-        await Navigation.PushAsync(new ViewRequestsPage(SelectedRoom, _manager));
+        await Navigation.PushAsync(new ViewRequestsPage(SelectedRoom, _manager)); //Navigates
     }
 }

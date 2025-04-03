@@ -6,10 +6,12 @@
              x:Class="A3Adolfo.PickRoomPage">
     <ContentPage.Content>
         <VerticalStackLayout>
-        <Label
+            <!--Title-->
+            <Label
             Text="Pick Meeting Room"
             Style="{StaticResource Headline}"
             SemanticProperties.HeadingLevel="Level1"/>
+            <!--Room Image-->
         <Image
             x:Name="RoomImage"
             Source="{Binding SelectedRoom.RoomImageFileName}"
@@ -46,6 +48,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
             </ListView>
+            
         <!--Button-->
         <HorizontalStackLayout HorizontalOptions="Center" Padding="10" Spacing="10">
         <Button

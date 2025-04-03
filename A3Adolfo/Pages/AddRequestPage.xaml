@@ -9,12 +9,14 @@
         <ScrollView>
             
             <VerticalStackLayout Padding="20" Spacing="12">
+                <!--Title-->
                 <Label
                     Text="Add Reservation Request"
                     Style="{StaticResource Headline}"
                     SemanticProperties.HeadingLevel="Level1"/>
 
                 <HorizontalStackLayout>
+                    <!--Room Image-->
                     <Image x:Name="Image"
                            HeightRequest="185"
                            Aspect="AspectFit"
@@ -26,7 +28,7 @@
                 </VerticalStackLayout>
                 </HorizontalStackLayout>
                 
-
+                <!--Form user input-->
                 <Entry x:Name="RequestedByEntry" Placeholder="Requested By" />
                 <Entry x:Name="DescriptionEntry" Placeholder="Meeting Description" />
 

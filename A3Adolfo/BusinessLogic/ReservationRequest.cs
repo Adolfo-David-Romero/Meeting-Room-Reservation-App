@@ -1,5 +1,6 @@
 namespace A3Adolfo.BusinessLogic;
 
+/// <summary> Represents the request of a room booking. </summary>
 public class ReservationRequest
 {
     //fields

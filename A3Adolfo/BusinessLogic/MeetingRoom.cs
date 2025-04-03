@@ -57,5 +57,6 @@ public class MeetingRoom
             _roomImageFileName = value;
         }
     }
+    /// <summary> Converts icon to string (does not need svg exstention). </summary>
     public string RoomTypeIcon => $"{RoomLayoutType.ToString().ToLower()}_icon"; //Computed Property
 }

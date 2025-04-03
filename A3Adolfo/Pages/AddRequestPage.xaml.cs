@@ -7,6 +7,7 @@ using A3Adolfo.BusinessLogic;
 
 namespace A3Adolfo;
 
+/// <summary> Page to add request. </summary>
 public partial class AddRequestPage : ContentPage
 {
     private MeetingRoom _selectedRoom;
@@ -16,7 +17,8 @@ public partial class AddRequestPage : ContentPage
         InitializeComponent();
         _selectedRoom = room;
         _manager = manager;
-
+        
+        //populate on load
         RoomLabel.Text = $"Room: {_selectedRoom.RoomNumber}";
         LayoutLabel.Text = $"Layout: {_selectedRoom.RoomLayoutType}";
         CapacityLabel.Text = $"Capacity: {_selectedRoom.SeatingCapacity}";

@@ -7,18 +7,11 @@
     Shell.FlyoutBehavior="Flyout"
     Title="A3Adolfo">
 
+    <!--Landing Page-->
     <ShellContent
         Title="Pick Room"
         ContentTemplate="{DataTemplate local:PickRoomPage}"
         Route="PickRoomPage"/>
-    <!-- <ShellContent -->
-    <!--     Title="Home" -->
-    <!--     ContentTemplate="{DataTemplate local:MainPage}" -->
-    <!--     Route="MainPage" /> -->
-    <!-- <ShellContent -->
-    <!--     Title="Request Room" -->
-    <!--     ContentTemplate="{DataTemplate local:AddRequestPage}" -->
-    <!--     Route="AddRequestPage"/> -->
     
 
 </Shell>

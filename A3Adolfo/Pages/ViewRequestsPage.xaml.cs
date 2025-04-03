@@ -7,6 +7,7 @@ using A3Adolfo.BusinessLogic;
 
 namespace A3Adolfo;
 
+/// <summary> Shows all requests for a particular room. </summary>
 public partial class ViewRequestsPage : ContentPage
 {
     public List<RequestStatus> StatusOptions { get; set; }  //public list of statuses for the Picker binding
@@ -32,6 +33,8 @@ public partial class ViewRequestsPage : ContentPage
     {
         await Navigation.PopAsync();
     }
+    
+    //BONUS: picker logic
     private async void OnStatusChanged(object sender, EventArgs e)
     {
         var picker = sender as Picker;
@@ -41,7 +44,6 @@ public partial class ViewRequestsPage : ContentPage
         {
             try
             {
-                // Only attempt to change if it's actually different
                 if (request.RequestStatus != newStatus)
                 {
                     _manager.ChangeStatus(request.RequestId, newStatus);

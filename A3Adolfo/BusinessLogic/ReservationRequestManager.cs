@@ -2,11 +2,12 @@ using System.Collections.ObjectModel;
 
 namespace A3Adolfo.BusinessLogic;
 
+/// <summary> Manages collctions of requests. </summary>
 public class ReservationRequestManager
 {
-    public ObservableCollection<MeetingRoom> _meetingRooms;
+    public ObservableCollection<MeetingRoom> _meetingRooms; 
     public ObservableCollection<ReservationRequest> _reservationRequests;
-    private int _nextRequestId = 1;
+    private int _nextRequestId = 1; //first request number 
     public ObservableCollection<MeetingRoom> GetMeetingRooms() => _meetingRooms;
     public ObservableCollection<ReservationRequest> GetReservationRequests() => _reservationRequests;
 
@@ -18,6 +19,7 @@ public class ReservationRequestManager
 
     
 
+    /// <summary> Adds meeting room to request. </summary>
     public void AddMeetingRoom(MeetingRoom room)
     {
         if (!_meetingRooms.Any(r => r.RoomNumber.Equals(room.RoomNumber, StringComparison.OrdinalIgnoreCase)))
@@ -30,7 +32,7 @@ public class ReservationRequestManager
             throw new BookingException($"Room number {room.RoomNumber} already exists.");
         }
     }
-    //Method to be resused to see if booking is valid
+    /// <summary> RESUABLE: Check if room is eligable to book (checks conflicts). </summary>
     public bool IsBookingEligible(MeetingRoom room, DateTime meetingDate, DateTime startTime, DateTime endTime, int? ignoreRequestId = null)
     {
         if (room == null)
@@ -48,7 +50,7 @@ public class ReservationRequestManager
         bool conflict = _reservationRequests.Any(r =>
             r.MeetingRoom.RoomNumber == room.RoomNumber &&
             r.MeetingDate.Date == meetingDate.Date &&
-            r.RequestStatus == RequestStatus.Accepted &&
+            r.RequestStatus == RequestStatus.Accepted && //Multiple rooms can be requsted, but you cant request an accepted room
             r.StartTime < endTime &&
             startTime < r.EndTime &&
             (!ignoreRequestId.HasValue || r.RequestId != ignoreRequestId.Value));
@@ -60,11 +62,13 @@ public class ReservationRequestManager
     }
 
 
+    /// <summary> Finds meetingRoom via room number. </summary>
     public MeetingRoom GetMeetingRoomByNumber(string roomNumber)
     {
         return _meetingRooms.FirstOrDefault(r => r.RoomNumber.Equals(roomNumber, StringComparison.OrdinalIgnoreCase));
     }
 
+    /// <summary> Adds room reervation to reservation collection. </summary>
     public bool AddReservationRequest(string roomNumber, string requestedBy, string description, DateTime meetingDate, DateTime startTime, DateTime endTime, int participantCount)
     {
         var room = GetMeetingRoomByNumber(roomNumber);
@@ -88,18 +92,8 @@ public class ReservationRequestManager
         _reservationRequests.Add(request);
         return true;
     }
-
-
-
-    public ObservableCollection<ReservationRequest> GetRequestsByRoomNumber(string roomNumber)
-    {
-        var requests = _reservationRequests
-            .Where(r => r.MeetingRoom.RoomNumber.Equals(roomNumber, StringComparison.OrdinalIgnoreCase))
-            .ToList();
     
-        return new ObservableCollection<ReservationRequest>(requests);
-    }
-
+    /// <summary> gets reservation via id. </summary>
     public ReservationRequest GetReservationById(int id)
     {
         foreach (var reservation in _reservationRequests)
@@ -111,7 +105,36 @@ public class ReservationRequestManager
         }
         throw new BookingException("Reservation: "+id+", Not found");
     }
+    /// <summary> BONUS: Changes room request status. </summary>
+    public bool ChangeStatus(int requestId, RequestStatus newStatus)
+    {
+        var request = GetReservationById(requestId);
 
+        if (request == null)
+            throw new BookingException("Reservation not found.");
+
+        if (newStatus == RequestStatus.Accepted)
+        {
+            IsBookingEligible(
+                request.MeetingRoom,
+                request.MeetingDate,
+                request.StartTime,
+                request.EndTime,
+                request.RequestId 
+            );
+        }
+
+        request.RequestStatus = newStatus;
+        return true;
+    }
+    
+
+    /* (CRUD) Although methods are not used, they could be implimented later for greater functionality*/
+    public ObservableCollection<ReservationRequest> GetReservationRequsts()
+    {
+        return _reservationRequests;
+    }
+    
     public bool DeleteReservation(int id)
     {
         var request = GetReservationById(id);
@@ -142,32 +165,13 @@ public class ReservationRequestManager
             _reservationRequests.Add(updated);
         }
     }
-
-    public ObservableCollection<ReservationRequest> GetReservationRequsts()
+    public ObservableCollection<ReservationRequest> GetRequestsByRoomNumber(string roomNumber)
     {
-        return _reservationRequests;
-    }
-    public bool ChangeStatus(int requestId, RequestStatus newStatus)
-    {
-        var request = GetReservationById(requestId);
-
-        if (request == null)
-            throw new BookingException("Reservation not found.");
-
-        if (newStatus == RequestStatus.Accepted)
-        {
-            // Use the new reusable method!
-            IsBookingEligible(
-                request.MeetingRoom,
-                request.MeetingDate,
-                request.StartTime,
-                request.EndTime,
-                request.RequestId 
-            );
-        }
-
-        request.RequestStatus = newStatus;
-        return true;
+        var requests = _reservationRequests
+            .Where(r => r.MeetingRoom.RoomNumber.Equals(roomNumber, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+    
+        return new ObservableCollection<ReservationRequest>(requests);
     }
 
 }
