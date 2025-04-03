@@ -46,7 +46,18 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
             </ListView>
+        <!--Button-->
+        <HorizontalStackLayout HorizontalOptions="Center" Padding="10" Spacing="10">
+        <Button
+            x:Name="AddRequestBtn"
+            Text="Add Request"
+            Clicked="OnAddBtnClicked"/>
+        <Button
+            x:Name="ViewRequestBtn"
+            Text="Add Request"
+            Clicked="ViewRequestBtnClicked"/>
         
+        </HorizontalStackLayout>
         </VerticalStackLayout>
     </ContentPage.Content>
 </ContentPage>

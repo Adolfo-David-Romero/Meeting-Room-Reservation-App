@@ -42,4 +42,19 @@ public partial class PickRoomPage : ContentPage
         OnPropertyChanged(nameof(SelectedRoom)); // Notifies UI to update binding
     }
 
+    private async void OnAddBtnClicked(object? sender, EventArgs e)
+    {
+        if (SelectedRoom == null)
+        {
+            await DisplayAlert("Error", "Please select a room first.", "OK");
+            return;
+        }
+
+        await Navigation.PushAsync(new AddRequestPage(SelectedRoom, _manager));
+    }
+
+    private void ViewRequestBtnClicked(object? sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
 }

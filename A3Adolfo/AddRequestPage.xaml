@@ -4,6 +4,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="A3Adolfo.AddRequestPage">
     <ContentPage.Content>
+        <VerticalStackLayout>
+        
+        <ScrollView>
+            
+            <VerticalStackLayout Padding="20" Spacing="12">
+                <Label
+                    Text="Add Reservation Request"
+                    Style="{StaticResource Headline}"
+                    SemanticProperties.HeadingLevel="Level1"/>
+
+                <Label x:Name="RoomLabel" FontAttributes="Bold" FontSize="18" />
+
+                <Entry x:Name="RequestedByEntry" Placeholder="Requested By" />
+                <Entry x:Name="DescriptionEntry" Placeholder="Meeting Description" />
+
+                <DatePicker x:Name="MeetingDatePicker" />
+                <TimePicker x:Name="StartTimePicker" />
+                <TimePicker x:Name="EndTimePicker" />
+
+                <Entry x:Name="ParticipantCountEntry" Placeholder="Number of Participants" Keyboard="Numeric" />
+
+                <Button Text="Submit Request" Clicked="OnSubmitClicked" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        </VerticalStackLayout>
         
     </ContentPage.Content>
 </ContentPage>
