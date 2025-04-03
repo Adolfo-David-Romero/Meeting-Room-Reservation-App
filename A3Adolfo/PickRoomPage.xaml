@@ -54,7 +54,7 @@
             Clicked="OnAddBtnClicked"/>
         <Button
             x:Name="ViewRequestBtn"
-            Text="Add Request"
+            Text="View Request"
             Clicked="ViewRequestBtnClicked"/>
         
         </HorizontalStackLayout>

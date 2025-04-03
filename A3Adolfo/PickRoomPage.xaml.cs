@@ -53,8 +53,14 @@ public partial class PickRoomPage : ContentPage
         await Navigation.PushAsync(new AddRequestPage(SelectedRoom, _manager));
     }
 
-    private void ViewRequestBtnClicked(object? sender, EventArgs e)
+    private async void ViewRequestBtnClicked(object? sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        if (SelectedRoom == null)
+        {
+            await DisplayAlert("Error", "Please select a room first.", "OK");
+            return;
+        }
+
+        await Navigation.PushAsync(new ViewRequestsPage(SelectedRoom, _manager));
     }
 }

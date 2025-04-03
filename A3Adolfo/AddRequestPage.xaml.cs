@@ -18,6 +18,9 @@ public partial class AddRequestPage : ContentPage
         _manager = manager;
 
         RoomLabel.Text = $"Room: {_selectedRoom.RoomNumber}";
+        LayoutLabel.Text = $"Layout: {_selectedRoom.RoomLayoutType}";
+        CapacityLabel.Text = $"Capacity: {_selectedRoom.SeatingCapacity}";
+        Image.Source = _selectedRoom.RoomImageFileName;
     }
     private async void OnSubmitClicked(object sender, EventArgs e)
     {

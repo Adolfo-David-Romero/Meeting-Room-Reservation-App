@@ -14,7 +14,17 @@
                     Style="{StaticResource Headline}"
                     SemanticProperties.HeadingLevel="Level1"/>
 
-                <Label x:Name="RoomLabel" FontAttributes="Bold" FontSize="18" />
+                <HorizontalStackLayout>
+                    <Image
+                        x:Name="Image"
+                        />
+                    <VerticalStackLayout>
+                    <Label x:Name="RoomLabel" FontAttributes="Bold" FontSize="18" />
+                    <Label x:Name="LayoutLabel" FontAttributes="Bold" FontSize="18" />
+                    <Label x:Name="CapacityLabel" FontAttributes="Bold" FontSize="18" />
+                </VerticalStackLayout>
+                </HorizontalStackLayout>
+                
 
                 <Entry x:Name="RequestedByEntry" Placeholder="Requested By" />
                 <Entry x:Name="DescriptionEntry" Placeholder="Meeting Description" />

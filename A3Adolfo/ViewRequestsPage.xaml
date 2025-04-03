@@ -4,6 +4,68 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="A3Adolfo.ViewRequestsPage">
     <ContentPage.Content>
-        
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+        <!-- Title -->
+        <Label Text="View Reservation Requests"
+               FontSize="24"
+               HorizontalOptions="Center"
+               TextColor="DarkBlue"
+               FontAttributes="Bold" />
+
+        <!-- Room label -->
+        <Label x:Name="RoomLabel"
+               FontSize="18"
+               TextColor="Black"
+               HorizontalOptions="Start"
+               FontAttributes="Bold" />
+
+        <!-- List of reservations -->
+        <CollectionView x:Name="RequestsCollectionView"
+                        ItemsLayout="VerticalList"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#E6F0FF"
+                           BorderColor="LightGray"
+                           CornerRadius="10"
+                           Padding="10"
+                           Margin="0,5">
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Requested by " />
+                                    <Span Text="{Binding RequestedBy}" FontAttributes="Bold" />
+                                    <Span Text=" for " />
+                                    <Span Text="{Binding Description}" />
+                                    <Span Text="." />
+                                    <Span Text="&#10;" />
+                                    <Span Text="Scheduled on " />
+                                    <Span Text="{Binding MeetingDate, StringFormat='{0:MMMM d}'}" />
+                                    <Span Text=" from " />
+                                    <Span Text="{Binding StartTime, StringFormat='{0:t}'}" />
+                                    <Span Text=" to " />
+                                    <Span Text="{Binding EndTime, StringFormat='{0:t}'}" />
+                                    <Span Text="." />
+                                    <Span Text="&#10;" />
+                                    <Span Text="Status: " />
+                                    <Span Text="{Binding RequestStatus}" FontAttributes="Bold" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Back button -->
+        <Button Text="Back to Rooms"
+                Clicked="OnBackClicked"
+                HorizontalOptions="Center"
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                CornerRadius="10"
+                WidthRequest="200" />
+    </VerticalStackLayout>
     </ContentPage.Content>
 </ContentPage>
