@@ -15,7 +15,10 @@
                     SemanticProperties.HeadingLevel="Level1"/>
 
                 <HorizontalStackLayout>
-                    <Image x:Name="Image"/>
+                    <Image x:Name="Image"
+                           HeightRequest="185"
+                           Aspect="AspectFit"
+                           VerticalOptions="Center"/>
                     <VerticalStackLayout>
                     <Label x:Name="RoomLabel" FontAttributes="Bold" FontSize="18" />
                     <Label x:Name="LayoutLabel" FontAttributes="Bold" FontSize="18" />

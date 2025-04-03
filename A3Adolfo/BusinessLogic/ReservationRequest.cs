@@ -39,8 +39,8 @@ public class ReservationRequest
             get => _requestedBy;
             set
             {
-                // if (string.IsNullOrWhiteSpace(value))
-                //     throw new ArgumentException("Required: RequestedBy.");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new BookingException("Required: RequestedBy.");
                 _requestedBy = value;
             }
         }
@@ -50,8 +50,8 @@ public class ReservationRequest
             get => _description;
             set
             {
-                // if (string.IsNullOrWhiteSpace(value))
-                //     throw new ArgumentException("Required: Description.");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new BookingException("Required: Description.");
                 _description = value;
             }
         }
@@ -67,8 +67,8 @@ public class ReservationRequest
             get => _startTime;
             set
             {
-                // if (_endTime != default && value >= _endTime)
-                //     throw new ArgumentException("StartTime must be before EndTime.");
+                if (_endTime != default && value >= _endTime)
+                    throw new BookingException("StartTime must be before EndTime.");
                 _startTime = value;
             }
         }
@@ -78,8 +78,8 @@ public class ReservationRequest
             get => _endTime;
             set
             {
-                // if (_startTime != default && value <= _startTime)
-                //     throw new ArgumentException("EndTime must be after StartTime.");
+                if (_startTime != default && value <= _startTime)
+                    throw new BookingException("EndTime must be after StartTime.");
                 _endTime = value;
             }
         }
@@ -89,21 +89,21 @@ public class ReservationRequest
             get => _participantCount;
             set
             {
-                // if (value <= 0)
-                //     throw new ArgumentException("ParticipantCount must be greater than 0.");
+                if (value <= 0)
+                    throw new BookingException("ParticipantCount must be greater than 0.");
                 _participantCount = value;
             }
         }
 
-        public RequestStatus RequestStatus { get; private set; } = RequestStatus.Pending;
+        public RequestStatus RequestStatus { get; set; } = RequestStatus.Pending;
 
         public MeetingRoom MeetingRoom
         {
             get => _meetingRoom;
             set
             {
-                // if (value == null)
-                //     throw new ArgumentNullException(nameof(MeetingRoom), "Required: MeetingRoom.");
+                if (value == null)
+                    throw new ArgumentNullException(nameof(MeetingRoom), "Required: MeetingRoom.");
                 _meetingRoom = value;
             }
         }
