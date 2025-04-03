@@ -10,25 +10,37 @@
             Text="Pick Meeting Room"
             Style="{StaticResource Headline}"
             SemanticProperties.HeadingLevel="Level1"/>
-        
         <Image
             x:Name="RoomImage"
             Source="{Binding SelectedRoom.RoomImageFileName}"
             HeightRequest="185"
             Aspect="AspectFit"
             VerticalOptions="Center"/>
-
+        
         <ListView x:Name="RoomListView" 
                   ItemsSource="{Binding MeetingRooms}"
                   ItemSelected="RoomListView_OnItemSelected" 
+                  RowHeight="80"
                   >
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:MeetingRoom">
                     <ViewCell>
-                        <HorizontalStackLayout Spacing="30">
-                            <Image Source="{Binding RoomTypeIcon}"/>
-                            <Label Text="{Binding RoomNumber}"/>
-                            <Label Text="{Binding SeatingCapacity}" TextColor="Red" />
+                        <HorizontalStackLayout Spacing="1" Padding="5">
+                            <Image Source="{Binding RoomTypeIcon}"
+                                   HeightRequest="40"
+                                   WidthRequest="40"
+                                   VerticalOptions="Center"/>
+                            
+                            <VerticalStackLayout>
+                                <Label Text="{Binding RoomNumber , StringFormat='Room: {0}'}"
+                                       FontAttributes="Bold" />
+
+                                <Label Text="{Binding RoomLayoutType, StringFormat='Layout: {0}'}" />
+                                <HorizontalStackLayout>
+                                    <Label Text="{Binding SeatingCapacity, StringFormat='Capacity: {0}'}" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            
                         </HorizontalStackLayout>
                     </ViewCell>
                 </DataTemplate>

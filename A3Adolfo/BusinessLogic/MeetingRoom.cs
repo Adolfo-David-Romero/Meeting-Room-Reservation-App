@@ -57,5 +57,5 @@ public class MeetingRoom
             _roomImageFileName = value;
         }
     }
-    public string RoomTypeIcon => $"{RoomLayoutType}.svg"; //Computed Property
+    public string RoomTypeIcon => $"{RoomLayoutType.ToString().ToLower()}_icon"; //Computed Property
 }

@@ -12,22 +12,34 @@ public partial class PickRoomPage : ContentPage
 {
     public ObservableCollection<MeetingRoom> MeetingRooms { get; set; }
     private ReservationRequestManager _manager = new ReservationRequestManager();
+    public MeetingRoom SelectedRoom { get; set; }
+
     public PickRoomPage()
     {
-        
+        //Four items
         _manager.AddMeetingRoom(new MeetingRoom("1", "auditorium_image.jpeg") { SeatingCapacity = 10, RoomLayoutType = RoomLayoutType.HollowSquare });
         _manager.AddMeetingRoom(new MeetingRoom("2", "banquet_image.jpeg") { SeatingCapacity = 15, RoomLayoutType = RoomLayoutType.UShape });
         _manager.AddMeetingRoom(new MeetingRoom("3", "classroom_image.jpeg") { SeatingCapacity = 20, RoomLayoutType = RoomLayoutType.Classroom });
         _manager.AddMeetingRoom(new MeetingRoom("4", "auditorium_image.jpeg") { SeatingCapacity = 8, RoomLayoutType = RoomLayoutType.Auditorium });
-        
-        // Initialize bindable collection
+
         MeetingRooms = new ObservableCollection<MeetingRoom>(_manager.GetMeetingRooms());
+
         BindingContext = this;
         InitializeComponent();
+
+        //select first item
+        if (MeetingRooms.Any())
+        {
+            SelectedRoom = MeetingRooms[0];
+            RoomListView.SelectedItem = SelectedRoom;
+            OnPropertyChanged(nameof(SelectedRoom));
+        }
     }
 
     private void RoomListView_OnItemSelected(object? sender, SelectedItemChangedEventArgs e)
     {
-        throw new NotImplementedException();
+        SelectedRoom = e.SelectedItem as MeetingRoom;
+        OnPropertyChanged(nameof(SelectedRoom)); // Notifies UI to update binding
     }
+
 }
